@@ -1,4 +1,5 @@
 import 'package:borrow_tracker/screens/home/BorrowForm.dart';
+import 'package:borrow_tracker/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -25,7 +26,7 @@ class Home extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () { /* BACKEND TASK: Sign Out */ },
+            onPressed: () async{ await AuthServices().signOut(); },
           )
         ],
       ),// BACKEND TASK: This will be your StreamProvider consumer

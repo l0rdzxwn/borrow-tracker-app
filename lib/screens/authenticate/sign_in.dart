@@ -1,6 +1,6 @@
+import 'package:borrow_tracker/services/auth.dart';
 import 'package:flutter/material.dart';
 
-// Use this structure for both SignIn and Register
 class SignIn extends StatefulWidget {
   final Function toggleView;
   SignIn({required this.toggleView});
@@ -22,8 +22,8 @@ class _SignInState extends State<SignIn> {
         title: Text('Borrow Tracker'),
         actions: [
           TextButton.icon(
-            icon: Icon(Icons.person, color: Colors.white),
-            label: Text('Register', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.person, color: Colors.black),
+            label: Text('Register', style: TextStyle(color: Colors.black)),
             onPressed: () => widget.toggleView(),
           )
         ],
@@ -47,8 +47,8 @@ class _SignInState extends State<SignIn> {
               SizedBox(height: 20.0),
               ElevatedButton(
                 child: Text('Sign In'),
-                onPressed: () {
-                   // BACKEND TASK: Call your Auth service here
+                onPressed: () async{
+                   await AuthServices().signIn(email, password);
                 },
               ),
             ],
