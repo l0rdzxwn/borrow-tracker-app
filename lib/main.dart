@@ -1,4 +1,4 @@
-import 'package:borrow_tracker/screens/home.dart';
+import 'package:borrow_tracker/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
