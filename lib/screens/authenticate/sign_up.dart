@@ -1,3 +1,4 @@
+import 'package:borrow_tracker/screens/extras/Loading.dart';
 import 'package:borrow_tracker/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,10 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
-
+  bool loadingStatus = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loadingStatus? Loading() : Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Borrow Tracker'),
@@ -48,6 +49,9 @@ class _RegisterState extends State<Register> {
               ElevatedButton(
                 child: Text('Sign up'),
                 onPressed: () async{
+                  setState(() {
+                    loadingStatus = true;
+                  });
                    await AuthServices().signUp(email, password);
                 },
               ),
