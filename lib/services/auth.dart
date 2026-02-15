@@ -14,7 +14,11 @@ Stream<FirebaseUser?> get userID {
 }
 
 Future signIn(String email, String password) async{
-  await _authInstance.signInWithEmailAndPassword(email: email, password: password);
+  try{
+    await _authInstance.signInWithEmailAndPassword(email: email, password: password);
+  }catch(ex){
+    print(ex.toString());
+  }
 }
 
 Future signUp(String email, String password) async{
