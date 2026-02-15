@@ -1,3 +1,4 @@
+import 'package:borrow_tracker/models/FirebaseUser.dart';
 import 'package:borrow_tracker/models/UserData.dart';
 import 'package:borrow_tracker/screens/home/BorrowForm.dart';
 import 'package:borrow_tracker/screens/home/ListView.dart';
@@ -19,9 +20,11 @@ class Home extends StatelessWidget {
       });
     }
 
+    final user = Provider.of<FirebaseUser?>(context);
+
     return StreamProvider<List<UserData>>.value(
       initialData: [],
-      value: DatabaseServices().userData,
+      value: DatabaseServices(uid: user?.uid).userData,
       builder: (context, asyncSnapshot) {
         return Scaffold(
           backgroundColor: Colors.blue[50],
