@@ -21,12 +21,21 @@ class DatabaseServices{
     });
   }
 
-  UserData _getData(DocumentSnapshot snapshot){
-    var data = snapshot.data() as Map<String,dynamic>;
-    return UserData(uid: uid ?? '', itemName: data['item-name'], personName: data['person-name'], lendStatus: data['lend-status']);
+  List<UserData> _getData(QuerySnapshot snapshot){
+
+    return snapshot.docs.map((row){
+      return UserData(
+        uid: row.get('uid'), 
+        itemName: row.get('item-name'), 
+        personName: row.get('person-name'), 
+        lendStatus: row.get('lend-status')
+      );
+    }).toList();
   }
 
-  Stream<UserData> get userData {
-    return collection.doc(uid).snapshots().map(_getData);
+  Stream<List<UserData>> get userData {
+    return collection.where('uid',isEqualTo: uid).snapshots().map(_getData);
   }
+
+
 }
