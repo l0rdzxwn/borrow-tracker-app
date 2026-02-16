@@ -21,11 +21,13 @@ class Home extends StatelessWidget {
     }
 
     final user = Provider.of<FirebaseUser?>(context);
-
+    
     return StreamProvider<List<UserData>>.value(
       initialData: [],
       value: DatabaseServices(uid: user?.uid).userData,
       builder: (context, snapshot) {
+        final userData = Provider.of<List<UserData>>(context);
+        int total = userData.length;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -123,7 +125,7 @@ class Home extends StatelessWidget {
                             Text('Total Records', style: TextStyle(color: Colors.white, fontSize: 16)),
                           ],
                         ),
-                        Text('1,500', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                        Text('${total}', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
                       ],
                     ),
                     Divider(color: Colors.white24),

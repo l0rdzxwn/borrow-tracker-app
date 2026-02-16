@@ -25,6 +25,11 @@ class DatabaseServices{
     return await collection.doc(uid).delete();
   }
 
+  Future<int> fetchRecordCount() async{
+    AggregateQuerySnapshot snapshot = await collection.where('uid', isEqualTo: uid).count().get();
+    return snapshot.count ?? 0;
+  }
+
   List<UserData> _getData(QuerySnapshot snapshot){
 
     return snapshot.docs.map((row){
