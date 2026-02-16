@@ -9,16 +9,20 @@ class DatabaseServices{
 
   final CollectionReference collection = FirebaseFirestore.instance.collection('itemsDB');
 
-  Future insertRecord(String name, String item) async{
+  Future insertRecord(String name, String item, bool lendStatus) async{
     final User? user = FirebaseAuth.instance.currentUser;
 
     return await collection.add({
         'uid': user?.uid, 
         'item-name': item, 
         'person-name': name, 
-        'lend-status': false
+        'lend-status': lendStatus
       
     });
+  }
+
+  Future deleteRecord() async{
+    return await collection.doc(uid).delete();
   }
 
   List<UserData> _getData(QuerySnapshot snapshot){
@@ -28,7 +32,8 @@ class DatabaseServices{
         uid: row.get('uid'), 
         itemName: row.get('item-name'), 
         personName: row.get('person-name'), 
-        lendStatus: row.get('lend-status')
+        lendStatus: row.get('lend-status'),
+        docID: row.id
       );
     }).toList();
   }
@@ -37,5 +42,6 @@ class DatabaseServices{
     return collection.where('uid',isEqualTo: uid).snapshots().map(_getData);
   }
 
+  
 
 }
