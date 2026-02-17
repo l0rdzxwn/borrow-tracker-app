@@ -1,5 +1,5 @@
 import 'package:borrow_tracker/models/FirebaseUser.dart';
-import 'package:borrow_tracker/screens/home/home.dart';
+import 'package:borrow_tracker/screens/home/mainPage.dart';
 import 'package:borrow_tracker/services/auth.dart';
 import 'package:borrow_tracker/wrapper.dart';
 import 'package:flutter/material.dart';
