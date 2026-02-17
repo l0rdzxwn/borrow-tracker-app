@@ -1,6 +1,7 @@
 import 'package:borrow_tracker/models/FirebaseUser.dart';
 import 'package:borrow_tracker/screens/authenticate/authentication.dart';
 import 'package:borrow_tracker/screens/home/home.dart';
+import 'package:borrow_tracker/screens/home/mainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
