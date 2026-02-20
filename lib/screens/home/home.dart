@@ -1,4 +1,4 @@
-import 'package:borrow_tracker/screens/home/analytics.dart';
+import 'package:borrow_tracker/screens/analytics/analytics.dart';
 import 'package:borrow_tracker/screens/home/mainPage.dart';
 import 'package:borrow_tracker/screens/home/profile.dart';
 import 'package:flutter/material.dart';

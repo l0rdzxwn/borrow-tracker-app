@@ -25,8 +25,13 @@ class DatabaseServices{
     return await collection.doc(uid).delete();
   }
 
-  Future<int> fetchRecordCount() async{
-    AggregateQuerySnapshot snapshot = await collection.where('uid', isEqualTo: uid).count().get();
+  Future<int> fetchLentCount() async{
+    AggregateQuerySnapshot snapshot = await collection.where('uid', isEqualTo: uid).where('lend-status', isEqualTo: true).count().get();
+    return snapshot.count ?? 0;
+  }
+
+  Future<int> fetchBorrowCount() async{
+    AggregateQuerySnapshot snapshot = await collection.where('uid', isEqualTo: uid).where('lend-status', isEqualTo: false).count().get();
     return snapshot.count ?? 0;
   }
 
