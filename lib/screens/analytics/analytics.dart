@@ -1,7 +1,11 @@
+import 'package:borrow_tracker/models/UserData.dart';
 import 'package:borrow_tracker/screens/analytics/PieGraph.dart';
+import 'package:borrow_tracker/screens/home/BorrowForm.dart';
 import 'package:borrow_tracker/services/auth.dart';
+import 'package:borrow_tracker/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
 
 class AnalyticsPage extends StatefulWidget {
 
@@ -51,6 +55,15 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     ),
   );
 }
+
+void _showSettingsPanel() {
+      showModalBottomSheet(context: context, builder: (context) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+          child: BorrowForm(), // Your form UI
+        );
+      });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +126,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                   ),
                   child: IconButton(
                     icon: Icon(Icons.add_rounded, color: Colors.white, size: 26),
-                    onPressed: () {},
+                    onPressed: () => _showSettingsPanel(),
                   ),
                 ),
                 IconButton(
@@ -128,88 +141,101 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
             ),
           ),
 
-          body: SingleChildScrollView(
-  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const SizedBox(height: 10),
-      Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          gradient: const LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            colors: [Color(0xFF467FEE), Color(0xFFAA66CE), Color(0xFFFF7F62)],
+          body: StreamProvider<List<UserData>>.value(
+            initialData: [],
+            value: DatabaseServices().userData,
+            builder: (context, snapshot) {
+              
+              final userData = Provider.of<List<UserData>>(context);
+              int total = userData.length;
+              int lentCount = userData.where((x) => x.lendStatus == true).length;
+              int borrowCount = userData.where((x) => x.lendStatus == false).length;
+
+
+              return SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(28),
+                        gradient: const LinearGradient(
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          colors: [Color(0xFF467FEE), Color(0xFFAA66CE), Color(0xFFFF7F62)],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF467FEE).withOpacity(0.3),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(Icons.analytics_outlined, color: Colors.white.withOpacity(0.8)),
+                              const Text('Active Items', style: TextStyle(color: Colors.white70, fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '${total}',
+                            style: TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+              
+                    const SizedBox(height: 40),
+                    
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            height: 250,
+                            child: PieGraph(lentCount: lentCount.toDouble(), borrowCount: borrowCount.toDouble(),),
+                          ),
+                          
+                          Column(
+                            children: [
+                              Text(
+                                "Balance",
+                                style: TextStyle(color: Colors.blueGrey[400], fontSize: 14),
+                              ),
+                              Text(
+                                "Ratio",
+                                style: TextStyle(color: Colors.blueGrey[900], fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+              
+                    const SizedBox(height: 40),
+              
+                    Row(
+                      children: [
+                        _buildLegendItem("Lent to Others", lentCount.toString(), Color(0xFF467FEE), Color(0xFFAA66CE)),
+                        const SizedBox(width: 20),
+                        _buildLegendItem("Borrowed", borrowCount.toString(), Color.fromARGB(255, 252, 91, 139),const Color(0xFFFF7F62)),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }
           ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF467FEE).withOpacity(0.3),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Icon(Icons.analytics_outlined, color: Colors.white.withOpacity(0.8)),
-                const Text('Active Items', style: TextStyle(color: Colors.white70, fontSize: 16)),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '18', // This would be lentCount + borrowedCount
-              style: TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 40),
-      
-      Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            SizedBox(
-              height: 250,
-              child: PieGraph(),
-            ),
-            
-            Column(
-              children: [
-                Text(
-                  "Balance",
-                  style: TextStyle(color: Colors.blueGrey[400], fontSize: 14),
-                ),
-                Text(
-                  "Ratio",
-                  style: TextStyle(color: Colors.blueGrey[900], fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 40),
-
-      Row(
-        children: [
-          _buildLegendItem("Lent to Others", "12 Items", Color(0xFF467FEE), Color(0xFFAA66CE)),
-          const SizedBox(width: 20),
-          _buildLegendItem("Borrowed", "6 Items", Color.fromARGB(255, 252, 91, 139),const Color(0xFFFF7F62)),
-        ],
-      ),
-    ],
-  ),
-),
         );
   }
 }

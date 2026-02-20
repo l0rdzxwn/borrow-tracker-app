@@ -6,10 +6,14 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
 class PieGraph extends StatelessWidget {
- 
+
+  final double lentCount;
+  final double borrowCount;
   
   const PieGraph({
-    super.key
+    super.key,
+    required this.lentCount,
+    required this.borrowCount
   });
 
 
@@ -18,22 +22,14 @@ class PieGraph extends StatelessWidget {
 
     final userID = Provider.of<FirebaseUser?>(context);
 
-    return StreamProvider<List<UserData>>.value(
-      initialData: [],
-      value: DatabaseServices(uid: userID?.uid).userData,
-      builder: (context, snapshot) {
-
-        final userData = Provider.of<List<UserData>>(context); 
-        int lentCount = userData.where((e) => e.lendStatus == true,).length;
-        int borrowCount = userData.where((e) => e.lendStatus == false,).length;
-        
+    
         return PieChart(
           PieChartData(
             sectionsSpace: 4,
             centerSpaceRadius: 60, 
             sections: [
               PieChartSectionData(
-                value: lentCount.toDouble(),
+                value: lentCount,
                 title: 'Lent',
                 radius: 25, 
                 showTitle: false, 
@@ -45,7 +41,7 @@ class PieGraph extends StatelessWidget {
               ),
               
               PieChartSectionData(
-                value: borrowCount.toDouble(),
+                value: borrowCount,
                 title: 'Borrowed',
                 radius: 25,
                 showTitle: false,
@@ -62,7 +58,5 @@ class PieGraph extends StatelessWidget {
             ),
           ),
         );
-      }
-    );
   }
 } 
