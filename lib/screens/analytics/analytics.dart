@@ -2,9 +2,7 @@ import 'package:borrow_tracker/models/UserData.dart';
 import 'package:borrow_tracker/screens/analytics/PieGraph.dart';
 import 'package:borrow_tracker/screens/home/BorrowForm.dart';
 import 'package:borrow_tracker/services/auth.dart';
-import 'package:borrow_tracker/services/database.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
 class AnalyticsPage extends StatefulWidget {
@@ -67,6 +65,12 @@ void _showSettingsPanel() {
 
   @override
   Widget build(BuildContext context) {
+    final userData = Provider.of<List<UserData>>(context);
+              int total = userData.length;
+              int lentCount = userData.where((x) => x.lendStatus == true).length;
+              int borrowCount = userData.where((x) => x.lendStatus == false).length;
+
+
     return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -141,18 +145,7 @@ void _showSettingsPanel() {
             ),
           ),
 
-          body: StreamProvider<List<UserData>>.value(
-            initialData: [],
-            value: DatabaseServices().userData,
-            builder: (context, snapshot) {
-              
-              final userData = Provider.of<List<UserData>>(context);
-              int total = userData.length;
-              int lentCount = userData.where((x) => x.lendStatus == true).length;
-              int borrowCount = userData.where((x) => x.lendStatus == false).length;
-
-
-              return SingleChildScrollView(
+          body: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,9 +226,7 @@ void _showSettingsPanel() {
                     ),
                   ],
                 ),
-              );
-            }
-          ),
+              )
         );
   }
 }
