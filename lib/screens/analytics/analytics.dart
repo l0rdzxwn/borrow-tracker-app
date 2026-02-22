@@ -111,7 +111,10 @@ void _showSettingsPanel() {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: Icon(Icons.bar_chart_rounded), 
+              icon: Icon(
+                Icons.bar_chart_rounded,
+                color: Color(0xFF467FEE)
+              ), 
               onPressed: () => widget.onScreenChange(1)
             ),
             
@@ -131,7 +134,8 @@ void _showSettingsPanel() {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.home_rounded), 
+              icon: Icon(
+                Icons.home_rounded,), 
               onPressed: () => widget.onScreenChange(0)
             ),
             

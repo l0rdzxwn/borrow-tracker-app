@@ -86,7 +86,10 @@ class MainPage extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.home_rounded), 
+              icon: Icon(
+                Icons.home_rounded,
+                color:Color(0xFF467FEE),
+              ), 
               onPressed: () => onScreenChange(0)
             ),
             
