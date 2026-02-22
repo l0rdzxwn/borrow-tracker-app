@@ -104,46 +104,40 @@ void _showSettingsPanel() {
           ),
 
           bottomNavigationBar: BottomAppBar(
-            shape: CircularNotchedRectangle(),
-            notchMargin: 8.0,
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.bar_chart_rounded), 
-                  onPressed: () => widget.onScreenChange(2),
-                ),
-                IconButton(
-                  icon: Icon(Icons.person_rounded), 
-                  onPressed: () => widget.onScreenChange(1),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                                colors: [Color(0xFF467FEE), Color(0xFFAA66CE), Color(0xFFFF7F62)],
-                              ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.add_rounded, color: Colors.white, size: 26),
-                    onPressed: () => _showSettingsPanel(),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.home_rounded), 
-                  onPressed: () => widget.onScreenChange(0)
-                ),
-                IconButton(
-                  icon: Icon(Icons.menu_rounded), 
-                  onPressed: () {}
-                ),
-              ],
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.bar_chart_rounded), 
+              onPressed: () => widget.onScreenChange(1)
             ),
-          ),
+            
+            Container(
+              margin: EdgeInsets.only(right: 8),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  colors: [Color(0xFF467FEE), Color(0xFFAA66CE), Color(0xFFFF7F62)],
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: Icon(Icons.add_rounded, color: Colors.white, size: 26),
+                onPressed: () => _showSettingsPanel(),
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.home_rounded), 
+              onPressed: () => widget.onScreenChange(0)
+            ),
+            
+          ],
+        ),
+      ),
 
           body: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),

@@ -66,21 +66,18 @@ class MainPage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.bar_chart_rounded), 
               onPressed: () {
-                  onScreenChange(2);
+                  onScreenChange(1);
               },
             ),
-            IconButton(
-              icon: Icon(Icons.person_rounded), 
-              onPressed: () => onScreenChange(1),
-            ),
+            
             Container(
               margin: EdgeInsets.only(right: 8),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                            colors: [Color(0xFF467FEE), Color(0xFFAA66CE), Color(0xFFFF7F62)],
-                          ),
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  colors: [Color(0xFF467FEE), Color(0xFFAA66CE), Color(0xFFFF7F62)],
+                ),
                 shape: BoxShape.circle,
               ),
               child: IconButton(
@@ -92,10 +89,7 @@ class MainPage extends StatelessWidget {
               icon: Icon(Icons.home_rounded), 
               onPressed: () => onScreenChange(0)
             ),
-            IconButton(
-              icon: Icon(Icons.menu_rounded), 
-              onPressed: () {}
-            ),
+            
           ],
         ),
       ),
